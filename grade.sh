@@ -1,3 +1,5 @@
+#set -e
+
 CPATH='.:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar'
 
 rm -rf student-submission
@@ -37,18 +39,22 @@ ls
 # Compile student file with javac from appropriate dirs
 # If compling fails, exit code 2, feedback
 # Use output redirection 2>
-
+echo "Hello1"
 javac ListExamples.java 2> compile-error.txt 
-
 temp=$?
+
+echo "hello2"
+echo $temp
 if [[ temp -ne 0 ]]
 then
-    cat compile-error.txt 
+    #cat compile-error.txt 
     echo "Compile Error. Recheck your files. Exited with code " $temp
     exit
 fi
-
+if [[ temp -eq 0 ]]
+then
 echo "Student file compiled successfully!"
+
 
 
 # Run code
@@ -61,19 +67,20 @@ javac -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar *.java
 echo "Test file compiled successfully!"
 
 echo "Running test files..."
-java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore TestListExamples > student-test-output.txt
+java -cp .:lib/hamcrest-core-1.3.jar:lib/junit-4.13.2.jar org.junit.runner.JUnitCore TestListExamples #> student-test-output.txt
 
-grep -o 'Tests run:..' ./student-test-output.txt > student-test-runs.txt
-grep -o 'Failures:..' ./student-test-output.txt > student-failures.txt
-cat student-test-runs.txt
-cat student-failures.txt
+#grep -o 'Tests run:..' ./student-test-output.txt > student-test-runs.txt
+#grep -o 'Failures:..' ./student-test-output.txt > student-failures.txt
+#cat student-test-runs.txt
+#cat student-failures.txt
+#cat ./student-test-output.txt
 
-run=$(grep -Eo '[0-9]+' student-test-runs.txt)
-fails=$(grep -Eo '[0-9]+' student-failures.txt)
-echo $run
-echo $fails
-
-let $fails/$run
+#run=$(grep -Eo '[0-9]+' student-test-runs.txt)
+#fails=$(grep -Eo '[0-9]+' student-failures.txt)
+#echo $run
+#echo $fails
+#
+#let $fails/$run
 
 # do math and print
 
@@ -89,3 +96,4 @@ let $fails/$run
 
 # Then, add here code to compile and run, and do any post-processing of the
 # tests
+fi
